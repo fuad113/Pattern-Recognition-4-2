@@ -1,4 +1,5 @@
 import numpy as np
+import math as math
 
 # matrix multiplication function
 def matrixmul(mat1=[],mat2=[]):
@@ -35,6 +36,9 @@ matrix2 = [[5,8,1],
 matrix3 = [[ 1,1 ,1]
 , [ 0, 2 ,5]
  ,[ 2, 5, -1]]
+
+res= math.log(math.exp,math.exp)
+
 
 
 
