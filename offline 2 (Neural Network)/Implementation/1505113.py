@@ -1,5 +1,7 @@
 import  numpy as np
 import copy
+
+#maximum iteration number
 maximumIteration = 1000
 
 np.random.seed(1)
@@ -164,7 +166,7 @@ def forwardPropagation(featureVec):
 #---------------------------------------------------------------------------------------
 #working of backword Propagation
 #calculation of delta rj
-def delRJCalculation(sampleNum, layerNum , previousDelRJ):
+def delRJCalculation(sampleNum, layerNum, previousLayerDelRJ):
 
     if(layerNum == numOfLayers):
         value1 = yDic[str(layerNum)][:,sampleNum]
@@ -188,7 +190,7 @@ def delRJCalculation(sampleNum, layerNum , previousDelRJ):
         value3 = np.diagflat(fPrime)
         tempRJ = np.dot(value2 , value3)
 
-        value4 = previousDelRJ.T
+        value4 = previousLayerDelRJ.T
         value5 = tempRJ
         delRJ = np.dot(value4,value5).T
 
@@ -329,45 +331,3 @@ for i in range(numOfsamplesTest):
 accuracy = (correctClassified / numOfsamplesTest) * 100
 
 print('Accuracy: ' , accuracy ,'%')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
