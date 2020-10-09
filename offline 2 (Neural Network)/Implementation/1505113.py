@@ -83,18 +83,18 @@ trainningX = (trainningX - mean)/sd
 
 #---------------------------------------------------------------------------------------
 #defining number of Hidden layers. Output layer is included in the hidden layer
-numOfHiddenLayers = 5
+numOfLayers = 4
 
 #defining the number of nodes in the hidden layers. Output layer number of nodes = number of class
-numOfNodesHiddenLayer = 5
+numOfNodesPerLayer = 4
 
 #creating an array to keep track which layer has how many nodes
 perLayerNodesNumber = []
 
 perLayerNodesNumber.append(numOfFeatures)
 
-for i in range(numOfHiddenLayers-1):
-    perLayerNodesNumber.append(numOfNodesHiddenLayer)
+for i in range(numOfLayers - 1):
+    perLayerNodesNumber.append(numOfNodesPerLayer)
 
 perLayerNodesNumber.append(numOfClass)
 print('Per layer node numbers: ',perLayerNodesNumber)
@@ -109,7 +109,7 @@ weightMatrix = []
 weightMatrix.append(0.0)
 
 #creating the matrix from hidden layer 1. Input layer does not need weight matrix
-for i in range(1, numOfHiddenLayers+1 , 1 ):
+for i in range(1, numOfLayers + 1 , 1):
 
     thisLayerNodeNumber = perLayerNodesNumber[i]
     previousLayerNodeNumber = perLayerNodesNumber[i-1]
@@ -151,7 +151,7 @@ def forwardPropagation(featureVec):
 
     y = np.array(featureVec)
     yDic[str(0)] = y
-    for i in range(1, numOfHiddenLayers+1 , 1):
+    for i in range(1, numOfLayers + 1 , 1):
         v = np.dot(weightMatrix[i] , y)
         y= sigmoid(v)
         yDic[str(i)] = y
@@ -166,7 +166,7 @@ def forwardPropagation(featureVec):
 #calculation of delta rj
 def delRJCalculation(sampleNum, layerNum , previousDelRJ):
 
-    if(layerNum == numOfHiddenLayers):
+    if(layerNum == numOfLayers):
         value1 = yDic[str(layerNum)][:,sampleNum]
         value2 = trainningY[:,sampleNum]
 
@@ -199,7 +199,7 @@ def backwardPropagation():
 
     for i in range(numOfsamples):
         delRJ = None
-        for j in range(numOfHiddenLayers , 0  , -1 ):
+        for j in range(numOfLayers , 0  , -1):
             delRJ  = delRJCalculation(i , j , delRJ)
             #reshape delRj to make it a column matrix
             delRJShape = delRJ.shape
@@ -217,7 +217,7 @@ def backwardPropagation():
 
             weightMatrixNew[j] = weightMatrixNew[j] - tempW
 
-    for i in range(1 , numOfHiddenLayers + 1 ,1):
+    for i in range(1 , numOfLayers + 1 , 1):
         weightMatrix[i] = weightMatrixNew[i]
 
 #---------------------------------------------------------------------------------------
@@ -295,6 +295,15 @@ testingX = (testingX - mean)/sd
 #---------------------------------------------------------------------------------------
 #testing work
 print("Testing On Process")
+
+report = open("NN Misclassified Report.txt", "w")
+report.write("Neural Network Misclassified Report\n")
+report.write("Misclassified Samples:\n\n")
+
+report.write(
+    "Feature No.                            Feature Values                            Actual Class           Predicted Class\n")
+
+
 correctClassified = 0
 
 yCap = forwardPropagation(testingX)
@@ -312,6 +321,9 @@ for i in range(numOfsamplesTest):
 
     if(actualClass == predictedClass):
         correctClassified += 1
+    else:
+        report.write(str(i + 1) + "              " + str(testingX[:,i]) + "                        "
+        + str(actualClass) + "                     " + str(predictedClass) + "\n")
 
 
 accuracy = (correctClassified / numOfsamplesTest) * 100
