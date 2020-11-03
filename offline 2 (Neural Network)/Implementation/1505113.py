@@ -99,7 +99,7 @@ for i in range(numOfLayers - 1):
     perLayerNodesNumber.append(numOfNodesPerLayer)
 
 perLayerNodesNumber.append(numOfClass)
-print('Per layer node numbers: ',perLayerNodesNumber)
+print('Per layer node number: ',perLayerNodesNumber)
 
 #---------------------------------------------------------------------------------------
 
