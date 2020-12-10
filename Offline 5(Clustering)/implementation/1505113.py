@@ -12,8 +12,8 @@ maxIteration =10000
 #reading the dataset
 
 #f= open("data/moons.txt", "r")
-f = open("data/blobs.txt", "r")
-#f = open("data/bisecting.txt", "r")
+#f = open("data/blobs.txt", "r")
+f = open("data/bisecting.txt", "r")
 
 lines = f.readlines()
 f.close()
@@ -155,10 +155,11 @@ def DBSCAN(eps):
     plt.title("DBSCAN")
 
     for i in range(datasetLength):
-        plotColor = colors[cluster[i]]
-        feat1= dataset[i][0]
-        feat2= dataset[i][1]
-        plt.scatter(feat1,feat2,color = plotColor)
+        if(cluster[i] > 0):
+            plotColor = colors[cluster[i]]
+            feat1 = dataset[i][0]
+            feat2 = dataset[i][1]
+            plt.scatter(feat1, feat2, color=plotColor)
 
     plt.xlabel('Feature 1')
     plt.ylabel('Feature 2')
@@ -300,5 +301,5 @@ KMeans(noOfClusters)
 
 #---------------------------------------------------------
 #moons.txt eps = 0.06
+#blobs.txt eps = 1.0
 #bisecting.txt eps = 0.45
-#blobs.txt eps = 0.75
